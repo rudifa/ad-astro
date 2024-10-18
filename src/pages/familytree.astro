@@ -1,8 +1,16 @@
 ---
 import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
 import CardGrid from '../components/CardGrid.astro';
+import FamilyTree1 from '../components/FamilyTree1.astro';
 ---
 
+<!-- ---
+import FamilyTree1 from '../components/FamilyTree1.astro';
+---
+
+<h2>Family Tree Visualization</h2>
+
+<FamilyTree1 /> -->
 <ShoelaceLayout title='ad-astro'>
   <header>
     <h1>ad-astro</h1>
@@ -10,23 +18,23 @@ import CardGrid from '../components/CardGrid.astro';
   <main>
     <CardGrid>
       <sl-card>
-        <h2>Web App</h2>
-        Minimal layout, with support for Shoelace components.
-        <sl-button slot='footer' variant='primary' outline href='./webapp'
-          >Demo</sl-button
-        >
+        <h2>Family Tree Visualization: component</h2>
+        <FamilyTree1 />
       </sl-card>
     </CardGrid>
     <CardGrid>
-      <sl-card>
+      <!-- CANT USE THIS AS IT IS NOT A PAGE -->
+      <!-- <sl-card>
         <h2>Family Tree</h2>
         Minimal layout, with support for Shoelace components.
-        <sl-button slot='footer' variant='primary' outline href='./familytree'
-          >Demo</sl-button
+        <sl-button
+          slot='footer'
+          variant='primary'
+          outline
+          href='src/components/FamilyTree1'>Demo</sl-button
         >
-      </sl-card>
+      </sl-card>  -->
     </CardGrid>
-    <CardGrid />
   </main>
 </ShoelaceLayout>
 

@@ -1,0 +1,82 @@
+---
+import Demo1 from '../components/Demo1.astro';
+import Demo2 from '../components/Demo2.astro';
+import Demo3 from '../components/Demo3.astro';
+
+const demos = [
+  { name: 'Demo 1', component: Demo1 },
+  { name: 'Demo 2', component: Demo2 },
+  { name: 'Demo 3', component: Demo3 },
+];
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Demo Components</title>
+    <style>
+      /* Add a border to the demo divs */
+      .demo {
+        border: 2px solid #000; /* Black border */
+        padding: 10px; /* Add some padding */
+        margin: 10px 0; /* Add some margin */
+      }
+      /* Style the form and select elements */
+      #demo-form {
+        font-size: 14px; /* Increase font size */
+        margin-bottom: 20px; /* Add some space below the form */
+      }
+      #demo-select {
+        font-size: 14px; /* Increase font size */
+        padding: 5px 10px; /* Add some padding */
+        width: 200px; /* Increase width */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Demo Components</h1>
+
+    <!-- Form to select a demo -->
+    <form id='demo-form'>
+      <label for='demo-select'>Choose a demo:</label>
+      <select name='demo' id='demo-select'>
+        <!-- Populate the select options with demo names -->
+        {demos.map((demo, index) => <option value={index}>{demo.name}</option>)}
+      </select>
+    </form>
+
+    <!-- Container to hold the demo components -->
+    <!-- It displays the first component by default, hiding the others -->
+    <div id='demo-container'>
+      {
+        demos.map((demo, index) => (
+          <div
+            id={`demo-${index}`}
+            class='demo'
+            style={index === 0 ? '' : 'display: none;'}
+          >
+            <demo.component />
+          </div>
+        ))
+      }
+    </div>
+
+    <script>
+      // Add an event listener to the select element to handle changes
+      document
+        .getElementById('demo-select')
+        .addEventListener('change', function (event) {
+          const selectedIndex = parseInt(event.target.value, 10); // Get the selected index
+          const demoContainers = document.querySelectorAll('.demo'); // Select all demo containers
+          demoContainers.forEach((container, index) => {
+            // Show the selected demo, hide others
+            container.style.display =
+              index === selectedIndex ? 'block' : 'none';
+          });
+          console.log('Selected index:', selectedIndex); // Log the selected index for debugging
+          console.log('Showing demoContainers:', demoContainers); // Log the demo containers for debugging
+        });
+    </script>
+  </body>
+</html>

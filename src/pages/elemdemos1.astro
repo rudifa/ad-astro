@@ -1,0 +1,94 @@
+---
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+
+import AstroHeart from '../components/astrodemos/AstroHeart.astro';
+
+const astrodemos = [
+  { id: 'heart', name: 'Astro Heart', component: AstroHeart },
+];
+
+import ProgrammingQuiz from '../components/claudedemos/ProgrammingQuiz.astro';
+import FlashyBackground from '../components/claudedemos/FlashyBackground.astro';
+import PlanetGrid from '../components/claudedemos/PlanetGrid.astro';
+
+const claudedemos = [
+  { id: 'quiz', name: 'Programming Quiz', component: ProgrammingQuiz },
+  { id: 'flashy', name: 'Flashy Background', component: FlashyBackground },
+  { id: 'planets', name: 'Planet Grid', component: PlanetGrid },
+];
+
+const components = [...astrodemos, ...claudedemos];
+---
+
+<ShoelaceLayout title='ad-astro'>
+  <div class='component-demo'>
+    <div class='selector'>
+      <label for='component-select'>Choose a component to display:</label>
+      <select id='component-select'>
+        {components.map((comp) => <option value={comp.id}>{comp.name}</option>)}
+      </select>
+    </div>
+
+    <div id='component-container'>
+      {
+        components.map((comp) => (
+          <div
+            class='component-wrapper'
+            data-component={comp.id}
+            style='display: none;'
+          >
+            <comp.component />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</ShoelaceLayout>
+
+<script>
+  function showSelectedComponent() {
+    // Get the select element by its ID
+    const select = document.getElementById('component-select');
+
+    // Get the value of the selected option
+    const selectedId = select.value;
+
+    // Get all elements with the class 'component-wrapper'
+    const componentWrappers = document.querySelectorAll('.component-wrapper');
+
+    // Iterate over each component wrapper
+    componentWrappers.forEach((wrapper) => {
+      // Check if the data-component attribute matches the selected value
+      if (wrapper.dataset.component === selectedId) {
+        // Show the component if it matches
+        wrapper.style.display = 'block';
+      } else {
+        // Hide the component if it doesn't match
+        wrapper.style.display = 'none';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('component-select');
+    select.addEventListener('change', showSelectedComponent);
+    showSelectedComponent(); // Show initial component
+  });
+</script>
+
+<style>
+  .component-demo {
+    font-family: Arial, sans-serif;
+  }
+  .selector {
+    margin: 20px 0;
+  }
+  select {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 16px;
+  }
+  #component-container {
+    margin-top: 20px;
+  }
+</style>

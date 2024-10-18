@@ -1,0 +1,68 @@
+---
+// Your Astro component logic can go here (if needed)
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoelace Radio Group Example in Astro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/themes/light.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/shoelace-autoloader.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Radio Group Example</h1>
+        <sl-radio-group label="Choose your favorite fruit" name="fruits" value="1">
+            <sl-radio value="1">Apple</sl-radio>
+            <sl-radio value="2">Banana</sl-radio>
+            <sl-radio value="3">Cherry</sl-radio>
+        </sl-radio-group>
+        <p id="result">Your selected fruit: Apple</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const radioGroup = document.querySelector('sl-radio-group');
+            const resultParagraph = document.getElementById('result');
+
+            radioGroup.addEventListener('sl-change', (event) => {
+                const selectedValue = event.target.value;
+                let selectedFruit;
+
+                switch (selectedValue) {
+                    case '1':
+                        selectedFruit = 'Apple';
+                        break;
+                    case '2':
+                        selectedFruit = 'Banana';
+                        break;
+                    case '3':
+                        selectedFruit = 'Cherry';
+                        break;
+                    default:
+                        selectedFruit = 'Unknown';
+                }
+
+                resultParagraph.textContent = `Your selected fruit: ${selectedFruit}`;
+                console.log(`Selected option: ${selectedValue}`);
+            });
+        });
+    </script>
+</body>
+</html>

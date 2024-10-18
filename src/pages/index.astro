@@ -1,19 +1,50 @@
 ---
+// Main landing page with navigation to Web App and Family Tree demos.
 import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
 import CardGrid from '../components/CardGrid.astro';
 ---
-<ShoelaceLayout title="‹new-astro-repo›">
-  <header>
-    <h1>‹new-astro-repo›</h1>
-  </header>
+
+<ShoelaceLayout title="ad-astro">
+  <header><h1>ad-astro</h1></header>
   <main>
+    <div class="intro">
+      <p>This app provides demos for a Web App and a Family Tree visualization.</p>
+    </div>
     <CardGrid>
       <sl-card>
         <h2>Web App</h2>
-        Minimal layout, with support for Shoelace components.
-        <sl-button slot="footer"
-          variant="primary" outline
-          href="./webapp">Demo</sl-button>
+        <p>Minimal layout with Shoelace components.</p>
+        <sl-button slot="footer" variant="primary" outline href="./webapp">
+          Demo
+        </sl-button>
+      </sl-card>
+      <sl-card>
+        <h2>Family Tree</h2>
+        <p>Family Tree variants.</p>
+        <sl-button slot="footer" variant="primary" outline href="./familytree">
+          Demo
+        </sl-button>
+      </sl-card>
+      <sl-card>
+        <h2>elemdemos1</h2>
+        <p>Elementary astro components.</p>
+        <sl-button slot="footer" variant="primary" outline href="./elemdemos1">
+          Demo
+        </sl-button>
+      </sl-card>
+      <sl-card>
+        <h2>elemdemos3</h2>
+        <p>Elementary astro components.</p>
+        <sl-button slot="footer" variant="primary" outline href="./elemdemos3">
+          Demo
+        </sl-button>
+      </sl-card>
+      <sl-card>
+        <h2>elemdemos4</h2>
+        <p>Elementary astro components.</p>
+        <sl-button slot="footer" variant="primary" outline href="./elemdemos4">
+          Demo
+        </sl-button>
       </sl-card>
     </CardGrid>
   </main>
@@ -26,11 +57,7 @@ import CardGrid from '../components/CardGrid.astro';
     padding: 1rem;
     max-width: calc(100% - 2rem);
   }
-  h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    line-height: 1;
-    text-align: left;
-    margin: var(--sl-spacing-4x-large) 0 var(--sl-spacing-3x-large);
+  .intro {
+    font-size: 1.5rem; /* Adjust the font size as needed */
   }
-</style>
+  h1 {

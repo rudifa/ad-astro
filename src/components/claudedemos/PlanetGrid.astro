@@ -1,0 +1,72 @@
+---
+const generatePlanetData = () => {
+  const planets = [
+    { name: 'Mercury', type: 'Terrestrial', color: '#A9A9A9', moons: 0, distanceFromSun: 0.39 },
+    { name: 'Venus', type: 'Terrestrial', color: '#FFA500', moons: 0, distanceFromSun: 0.72 },
+    { name: 'Earth', type: 'Terrestrial', color: '#1E90FF', moons: 1, distanceFromSun: 1.00 },
+    { name: 'Mars', type: 'Terrestrial', color: '#FF4500', moons: 2, distanceFromSun: 1.52 },
+    { name: 'Jupiter', type: 'Gas Giant', color: '#DEB887', moons: 79, distanceFromSun: 5.20 },
+    { name: 'Saturn', type: 'Gas Giant', color: '#F4A460', moons: 82, distanceFromSun: 9.54 },
+    { name: 'Uranus', type: 'Ice Giant', color: '#40E0D0', moons: 27, distanceFromSun: 19.19 },
+    { name: 'Neptune', type: 'Ice Giant', color: '#4169E1', moons: 14, distanceFromSun: 30.07 }
+  ];
+
+  return planets.map(planet => ({
+    ...planet,
+    moons: planet.name === 'Earth' ? 1 : Math.floor(Math.random() * (planet.moons + 1)),
+    distanceFromSun: `${planet.distanceFromSun.toFixed(2)} AU`
+  }));
+};
+
+const planetData = generatePlanetData();
+---
+
+<div class="planets-container">
+    <h1>Explore Our Solar System</h1>
+    <div class="planet-grid">
+        {planetData.map((planet) => (
+            <div class="planet-card" style={`border-left: 5px solid ${planet.color};`}>
+                <div class="planet-name" style={`color: ${planet.color};`}>{planet.name}</div>
+                <div class="planet-info">Type: {planet.type}</div>
+                <div class="planet-info">Moons: {planet.moons}</div>
+                <div class="planet-info">Distance from Sun: {planet.distanceFromSun}</div>
+            </div>
+        ))}
+    </div>
+</div>
+
+<style>
+    .planets-container {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a2e;
+        color: #ffffff;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .planet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    .planet-card {
+        background-color: #16213e;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .planet-card:hover {
+        transform: translateY(-5px);
+    }
+    .planet-name {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .planet-info {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+    }
+</style>

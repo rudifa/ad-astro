@@ -1,0 +1,153 @@
+---
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
+const generateQuizData = (): QuizQuestion[] => {
+  const questions: QuizQuestion[] = [
+    {
+      question:
+        'Which language is known for its use in data science and machine learning?',
+      options: ['JavaScript', 'Python', 'Java', 'C++'],
+      correctAnswer: 1,
+    },
+    {
+      question: 'What language is primarily used for iOS app development?',
+      options: ['Swift', 'Kotlin', 'C#', 'Ruby'],
+      correctAnswer: 0,
+    },
+    {
+      question:
+        'Which language is often used for backend web development and has a framework called Rails?',
+      options: ['PHP', 'Python', 'Ruby', 'Go'],
+      correctAnswer: 2,
+    },
+    {
+      question:
+        "What language is known for its 'write once, run anywhere' philosophy?",
+      options: ['C++', 'Java', 'Python', 'JavaScript'],
+      correctAnswer: 1,
+    },
+    {
+      question:
+        'Which language is commonly used for game development with the Unity engine?',
+      options: ['Java', 'C#', 'Python', 'Lua'],
+      correctAnswer: 1,
+    },
+  ];
+
+  return questions.map((q) => ({
+    ...q,
+    id: Math.random().toString(36).substr(2, 9),
+  }));
+};
+
+const quizData = generateQuizData();
+---
+
+<div class='quiz-container'>
+  <h2>Programming Language Quiz</h2>
+  <div id='result'></div>
+  <div id='quiz'>
+    {
+      quizData.map((q, index) => (
+        <div class='question' data-correct={q.correctAnswer}>
+          <h3>
+            {index + 1}. {q.question}
+          </h3>
+          <div class='options'>
+            {q.options.map((option) => (
+              <button onclick={`window.checkAnswer(this, ${q.correctAnswer})`}>
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script is:inline>
+  // 1.include this script as-is in the final HTML, making its contents available globally.
+  // 2. Prefix the functions and variables with `window.` to make them accessible from inline event handlers.
+  window.score = 0;
+  window.totalQuestions = 5; // Update this if you change the number of questions
+  window.answeredQuestions = 0;
+
+  window.checkAnswer = function (button, correctAnswer) {
+    const questionDiv = button.closest('.question');
+    const buttons = questionDiv.querySelectorAll('button');
+
+    buttons.forEach((btn) => (btn.disabled = true));
+
+    if (Array.from(buttons).indexOf(button) === correctAnswer) {
+      button.style.backgroundColor = '#2ecc71';
+      window.score++;
+    } else {
+      button.style.backgroundColor = '#e74c3c';
+      buttons[correctAnswer].style.backgroundColor = '#2ecc71';
+    }
+
+    window.answeredQuestions++;
+
+    if (window.answeredQuestions === window.totalQuestions) {
+      showResult();
+    }
+  };
+
+  function showResult() {
+    const resultDiv = document.getElementById('result');
+    const percentage = (window.score / window.totalQuestions) * 100;
+    resultDiv.textContent = `You scored ${window.score} out of ${window.totalQuestions} (${percentage.toFixed(2)}%)`;
+  }
+</script>
+
+<style>
+  .quiz-container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  .question {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  button {
+    padding: 10px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #2980b9;
+  }
+  #result {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+    font-weight: bold;
+    color: darkorange;
+  }
+</style>

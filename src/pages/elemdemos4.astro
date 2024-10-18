@@ -1,0 +1,94 @@
+---
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+import AstroHeart from '../components/astrodemos/AstroHeart.astro';
+
+const astrodemos = [
+  { id: 'heart', name: 'Astro Heart', component: AstroHeart },
+];
+
+import ProgrammingQuiz from '../components/claudedemos/ProgrammingQuiz.astro';
+import FlashyBackground from '../components/claudedemos/FlashyBackground.astro';
+import PlanetGrid from '../components/claudedemos/PlanetGrid.astro';
+
+const claudedemos = [
+  { id: 'quiz', name: 'Programming Quiz', component: ProgrammingQuiz },
+  { id: 'flashy', name: 'Flashy Background', component: FlashyBackground },
+  { id: 'planets', name: 'Planet Grid', component: PlanetGrid },
+];
+
+const components = [...astrodemos, ...claudedemos];
+
+import AstroHeart from '../components/astrodemos/AstroHeart.astro';
+
+const astrodemos2 = [
+  { id: 'heart', name: 'Astro Heart', component: AstroHeart },
+];
+
+import ProgrammingQuiz from '../components/claudedemos/ProgrammingQuiz.astro';
+import FlashyBackground from '../components/claudedemos/FlashyBackground.astro';
+import PlanetGrid from '../components/claudedemos/PlanetGrid.astro';
+
+const claudedemos2 = [
+  { id: 'quiz', name: 'Programming Quiz', component: ProgrammingQuiz },
+  { id: 'flashy', name: 'Flashy Background', component: FlashyBackground },
+  { id: 'planets', name: 'Planet Grid', component: PlanetGrid },
+];
+
+const components2 = [...astrodemos2, ...claudedemos2];
+const fruits = ['apple', 'banana', 'cherry'];
+
+function capitalize(str) {
+  // return str.charAt(0).toUpperCase() + str.slice(1);
+  return str;
+}
+---
+
+<ShoelaceLayout title='ad-astro'>
+  <h1>Shoelace Radio Group Demo</h1>
+
+  <sl-radio-group label='Choose your favorite fruit' name='fruit' value='apple'>
+    {
+      fruits.map((fruit) => (
+        <sl-radio-button value={fruit}>{capitalize(fruit)}</sl-radio-button>
+      ))
+    }
+  </sl-radio-group>
+
+  <p id='result'>Your selected fruit: Apple</p>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const radioGroup = document.querySelector('sl-radio-group');
+      const resultParagraph = document.getElementById('result');
+
+      radioGroup.addEventListener('sl-change', (event) => {
+        const selectedValue = event.target.value;
+        resultParagraph.textContent = `Your selected fruit: ${selectedValue}`;
+      });
+    });
+  </script>
+
+  <sl-radio-group label='Choose your demo' name='demo' value='flashy'>
+    {
+      components2.map((demo) => (
+        <sl-radio-button value={components2}>
+          {capitalize(demo.name)}
+        </sl-radio-button>
+      ))
+    }
+  </sl-radio-group>
+
+  <p id='result'>Your selected demo: Flashy</p>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const radioGroup = document.querySelector('sl-radio-group');
+      const resultParagraph = document.getElementById('result');
+
+      radioGroup.addEventListener('sl-change', (event) => {
+        const selectedValue = event.target.value;
+        resultParagraph.textContent = `Your selected demo: ${selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1)}`;
+      });
+    });
+  </script>
+</ShoelaceLayout>

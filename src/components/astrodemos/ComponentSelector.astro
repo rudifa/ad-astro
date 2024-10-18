@@ -1,0 +1,69 @@
+---
+import AstroHeart from './AstroHeart.astro';
+
+const components = [
+  { id: 'heart', name: 'Astro Heart', component: AstroHeart },
+];
+---
+
+<div class='component-demo'>
+  <div class='selector'>
+    <label for='component-select'>Choose a component to display:</label>
+    <select id='component-select'>
+      {components.map((comp) => <option value={comp.id}>{comp.name}</option>)}
+    </select>
+  </div>
+
+  <div id='component-container'>
+    {
+      components.map((comp) => (
+        <div
+          class='component-wrapper'
+          data-component={comp.id}
+          style='display: none;'
+        >
+          <comp.component />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .component-demo {
+    font-family: Arial, sans-serif;
+  }
+  .selector {
+    margin: 20px 0;
+  }
+  select {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 16px;
+  }
+  #component-container {
+    margin-top: 20px;
+  }
+</style>
+
+<script>
+  function showSelectedComponent() {
+    const select = document.getElementById('component-select');
+    const selectedId = select.value;
+    const componentWrappers = document.querySelectorAll('.component-wrapper');
+
+    componentWrappers.forEach((wrapper) => {
+      if (wrapper.dataset.component === selectedId) {
+        wrapper.style.display = 'block';
+      } else {
+        wrapper.style.display = 'none';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('component-select');
+    select.addEventListener('change', showSelectedComponent);
+    showSelectedComponent(); // Show initial component
+  });
+</script>

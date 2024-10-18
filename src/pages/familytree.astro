@@ -1,0 +1,51 @@
+---
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+import CardGrid from '../components/CardGrid.astro';
+import FamilyTree1 from '../components/FamilyTree1.astro';
+import FamilyTree2 from '../components/FamilyTree2.astro';
+---
+
+<!-- ---
+import FamilyTree1 from '../components/FamilyTree1.astro';
+---
+
+<h2>Family Tree Visualization</h2>
+
+<FamilyTree1 /> -->
+<ShoelaceLayout title='ad-astro'>
+  <header>
+    <h1>ad-astro</h1>
+  </header>
+  <hr />
+  <CardGrid>
+    <sl-card>
+      <h2>Family Tree 1 Visualization: hardcoded final d3 data</h2><br />
+      <FamilyTree1 />
+    </sl-card>
+  </CardGrid>
+  <CardGrid />
+  <CardGrid>
+    <sl-card>
+      <h2>Family Tree 2 Visualization: hardcoded</h2><br />
+      <FamilyTree2 />
+    </sl-card>
+  </CardGrid>
+  <CardGrid />
+</ShoelaceLayout>
+
+<style>
+  header,
+  main {
+    margin: auto;
+    width: 1024px;
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+  h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    margin: var(--sl-spacing-4x-large) 0 var(--sl-spacing-3x-large);
+  }
+</style>

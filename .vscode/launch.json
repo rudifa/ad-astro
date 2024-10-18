@@ -6,6 +6,14 @@
       "name": "Development server",
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "name": "Run json-to-d3-hierarchy",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/util",
+      "program": "${workspaceFolder}/util/json-to-d3-hierarchy.js",
+      "console": "integratedTerminal"
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 ---
 
-<div id='family-tree'></div>
+<div id='family-tree-1'></div>
 <script>
   import * as d3 from 'd3';
 
@@ -11,7 +11,7 @@
   const height = 600 - margin.top - margin.bottom;
 
   const svg = d3
-    .select('#family-tree')
+    .select('#family-tree-1')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
@@ -19,22 +19,22 @@
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
   // Hardcoded tree data
-  const treeData = {
+  const hierarchyFatherOf2Children = {
     name: 'John Doe',
     children: [
       {
         name: 'Robert Doe',
-        children: [{ name: 'William Doe' }, { name: 'Sarah Miller' }],
+        children: [{ name: 'William Doe' }, { name: 'Sarah Doe Miller' }],
       },
       {
-        name: 'Jane Smith',
-        children: [{ name: 'Michael Smith' }, { name: 'Anna Johnson' }],
+        name: 'Jane Doe Smith',
+        children: [{ name: 'Michael Smith' }, { name: 'Anna Smith Johnson' }],
       },
     ],
   };
 
   // Create a tree layout
-  const root = d3.hierarchy(treeData);
+  const root = d3.hierarchy(hierarchyFatherOf2Children);
   const treeLayout = d3.tree().size([width, height]);
   treeLayout(root);
 

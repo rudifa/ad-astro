@@ -1,81 +1,46 @@
 ---
-// import { convertToHierarchy } from '../../util/json-to-d3-hierarchy';
-
 // Define the hardcoded data
-const jsonOneChild = {
+const childrenWithOneGrandfather = {
   persons: [
     {
-      name: 'Alice Johnson',
-      father: 'Tom Johnson',
-      mother: 'Mary Williams',
+      name: 'William Doe',
+      father: 'Robert Doe',
     },
     {
-      name: 'Bob Johnson',
-      father: 'Tom Johnson',
-      mother: 'Mary Williams',
+      name: 'Sarah Doe Miller',
+      father: 'Robert Doe',
+    },
+    {
+      name: 'Michael Smith',
+      mother: 'Jane Doe Smith',
+    },
+    {
+      name: 'Anna Smith Johnson',
+      mother: 'Jane Doe Smith',
+    },
+    {
+      name: 'Robert Doe',
+      father: 'John Doe',
+    },
+    {
+      name: 'Jane Doe Smith',
+      mother: 'John Doe',
+    },
+    {
+      name: 'John Doe',
     },
   ],
 };
 
-console.log('jsonOneChild 1:', JSON.stringify(jsonOneChild, null, 2));
+// TODO convert to the 'children' format
 
-// // Convert the data to hierarchyData
-// const hierarchyData = convertToHierarchy(jsonOneChild);
-
-// console.log('hierarchyData 1:', JSON.stringify(hierarchyData, null, 2));
-
-// // Define the props type for the conversion result
-// interface HierarchyNode {
-//   name: string;
-//   children?: HierarchyNode[];
-// }
-
-// interface Props {
-//   data: {
-//     persons: Array<{
-//       name: string;
-//       father: string;
-//       mother: string;
-//     }>;
-//   };
-// }
-
-// // Get the props
-// const { data } = Astro.props;
-
-// Convert the data from props to hierarchyDataFromProps
-// const hierarchyDataFromProps = convertToHierarchy(data);
+console.log(
+  'childrenWithOneGrandfather:',
+  JSON.stringify(childrenWithOneGrandfather, null, 2)
+);
 ---
 
-<!-- <div>
-  <h1>Family Tree</h1>
-  <h2>Hardcoded Data</h2>
-  <pre>{JSON.stringify(hierarchyData, null, 2)}</pre>
-  <h2>Data from Props</h2>
-  <pre>{JSON.stringify(hierarchyDataFromProps, null, 2)}</pre>
-</div>
-
-<script>
-  console.log('Hierarchy from hardcoded data:', hierarchyData);
-  console.log('Hierarchy from props:', hierarchyDataFromProps);
-</script> --><!-- <div>
-  <h1>Family Tree</h1>
-  <pre>{JSON.stringify(hierarchyData, null, 2)}</pre>
-</div> --><!-- <div>
-  <h1>Family Tree</h1>
-  <pre>{JSON.stringify(jsonOneChild, null, 2)}</pre>
-</div> --><!-- <script>
-  console.log(jsonOneChild);
-</script> --><!-- Use hierarchyData in your component -->
-<script>
-  //console.log(hierarchyData);
-</script>
-
-<!-- Example usage in your component --><!-- <div>
-  <h1>Family Tree</h1>
-  <pre>{JSON.stringify(hierarchyData, null, 2)}</pre>
-</div> -->
-<div id='family-tree'></div>
+<div id='family-tree-2'></div>
 <script>
   import * as d3 from 'd3';
 
@@ -84,46 +49,30 @@ console.log('jsonOneChild 1:', JSON.stringify(jsonOneChild, null, 2));
   const height = 600 - margin.top - margin.bottom;
 
   const svg = d3
-    .select('#family-tree')
+    .select('#family-tree-2')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  // hardcoded input data
-  // const jsonOneChild = {
-  //   persons: [
-  //     {
-  //       name: 'Alice Johnson',
-  //       father: 'Tom Johnson',
-  //       mother: 'Mary Williams',
-  //     },
-  //     {
-  //       name: 'Bob Johnson',
-  //       father: 'Tom Johnson',
-  //       mother: 'Mary Williams',
-  //     },
-  //   ],
-  // };
-
   // Hardcoded tree data
-  const hierarchyData = {
+  const hierarchyFatherOf2Children = {
     name: 'John Doe',
     children: [
       {
         name: 'Robert Doe',
-        children: [{ name: 'William Doe' }, { name: 'Sarah Miller' }],
+        children: [{ name: 'William Doe' }, { name: 'Sarah Doe Miller' }],
       },
       {
-        name: 'Jane Smith',
-        children: [{ name: 'Michael Smith' }, { name: 'Anna Johnson' }],
+        name: 'Jane Doe Smith',
+        children: [{ name: 'Michael Smith' }, { name: 'Anna Smith Johnson' }],
       },
     ],
   };
 
   // Create a tree layout
-  const root = d3.hierarchy(hierarchyData);
+  const root = d3.hierarchy(hierarchyFatherOf2Children);
   const treeLayout = d3.tree().size([width, height]);
   treeLayout(root);
 
@@ -142,7 +91,7 @@ console.log('jsonOneChild 1:', JSON.stringify(jsonOneChild, null, 2));
         .attr('cy', 0)
         .attr('rx', 50)
         .attr('ry', 20)
-        .style('fill', '#69b3a2');
+        .style('fill', '#ffb3a2');
 
       d3.select(this)
         .append('text')

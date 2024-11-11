@@ -1,0 +1,135 @@
+---
+// YourPage.astro
+import MultilingualNumberTable from '../components/MultilingualNumberTable.astro';
+
+const tableData = {
+  title: 'Premier Jeu: Compter de 1 à 5 en 10 langues',
+  description0:
+    'Un tableau comparatif des nombres de 1 à 5 dans différentes langues européennes, y compris des langues avec des écritures différentes comme le yiddish, le bulgare et le russe.',
+  description:
+    "Dans ce jeu il n'y a pas de perdantes!\n\n" +
+    'Les gagnantes sont celles et ceux qui arrivent à apprendre à compter de 1 à 5 dans toutes ces langues. \n\n',
+  headers: [
+    'français',
+    'deutsch',
+    'italiano',
+    'english',
+    'español',
+    'hrvatski',
+    'magyar',
+    'jidisch',
+    'jidisch',
+    'български',
+    'по русски',
+  ],
+  rows: [
+    [
+      'un',
+      'eins',
+      'uno',
+      'one',
+      'uno',
+      'jedan',
+      'egy',
+      'eyn',
+      'איין',
+      'едно',
+      'один',
+    ],
+    [
+      'deux',
+      'zwei',
+      'due',
+      'two',
+      'dos',
+      'dva',
+      'kettő',
+      'tsvey',
+      'צוויי',
+      'две',
+      'два',
+    ],
+    [
+      'trois',
+      'drei',
+      'tre',
+      'three',
+      'tres',
+      'tri',
+      'három',
+      'dray',
+      'דריי',
+      'три',
+      'три',
+    ],
+    [
+      'quatre',
+      'vier',
+      'quattro',
+      'four',
+      'cuatro',
+      'četiri',
+      'négy',
+      'fir',
+      'פיר',
+      'четири',
+      'четыре',
+    ],
+    [
+      'cinq',
+      'fünf',
+      'cinque',
+      'five',
+      'cinco',
+      'pet',
+      'öt',
+      'finf',
+      'פינף',
+      'пет',
+      'пять',
+    ],
+  ],
+  // Define which columns should be merged
+  columnMerges: {
+    7: {
+      mergeWith: 8,
+      labels: ['', ''], // Optional labels for each representation
+    },
+  },
+};
+
+const instructions = [
+  "Alors, c'est parti pour apprendre à compter !",
+  '.',
+
+  "Si c'est dur d'en apprendre plusieurs d'un coup, tu peux faire une recherche :",
+  'Parmi tes ancêtres - les parents ou les grands-parents de tes parents -',
+  "il y en a sûrement eu qui parlaient l'une ou l'autre de ces langues.",
+  'Renseigne-toi qui parlait quelle langue et de quel pays était elle ou il!',
+];
+---
+
+<MultilingualNumberTable data={tableData} />
+
+<div class='instructions'>
+  {instructions.map((instruction) => <p>{instruction}</p>)}
+</div>
+
+<style>
+  .instructions {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    text-align: center; /* Add this line to center the text */
+  }
+
+  .instructions p {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    max-width: 600px; /* Optional: limits the line length for better readability */
+    margin-left: auto; /* Centers the paragraph if max-width is set */
+    margin-right: auto; /* Centers the paragraph if max-width is set */
+  }
+</style>

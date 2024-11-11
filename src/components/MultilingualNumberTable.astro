@@ -1,0 +1,220 @@
+---
+// MultilingualNumberTable.astro
+interface Props {
+  data: {
+    headers: string[];
+    rows: string[][];
+    title: string;
+    description?: string;
+    columnMerges?: {
+      [baseColumnIndex: number]: {
+        mergeWith: number;
+        labels?: [string, string];
+      };
+    };
+  };
+}
+
+const { data } = Astro.props;
+
+// Process headers and determine actual column count
+const processedHeaders = data.headers.filter(
+  (_, index) =>
+    !Object.values(data.columnMerges || {}).some(
+      (merge) => merge.mergeWith === index
+    )
+);
+
+// Process a row to merge specified columns
+function processRow(row: string[]) {
+  return row
+    .filter(
+      (_, index) =>
+        !Object.values(data.columnMerges || {}).some(
+          (merge) => merge.mergeWith === index
+        )
+    )
+    .map((cell, index) => {
+      const mergeInfo = Object.entries(data.columnMerges || {}).find(
+        ([baseIdx]) => Number(baseIdx) === index
+      );
+      if (mergeInfo) {
+        const [, { mergeWith, labels }] = mergeInfo;
+        return {
+          representations: [cell, row[mergeWith]],
+          labels,
+        };
+      }
+      return cell;
+    });
+}
+
+// Utility to determine text direction based on script
+function getTextDirection(text: string): 'rtl' | 'ltr' {
+  const rtlRegex = /[\u0590-\u05FF\u0600-\u06FF]/;
+  return rtlRegex.test(text) ? 'rtl' : 'ltr';
+}
+---
+
+<div class='table-container'>
+  <h2 class='title'>{data.title}</h2>
+  {data.description && <p class='description'>{data.description}</p>}
+  <table>
+    <thead>
+      <tr>
+        {
+          processedHeaders.map((header) => (
+            <th
+              set:html={header}
+              class:list={[getTextDirection(header) === 'rtl' ? 'rtl' : 'ltr']}
+            />
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        data.rows.map((row) => (
+          <tr>
+            {processRow(row).map((cell) => {
+              if (typeof cell === 'string') {
+                return (
+                  <td
+                    class:list={[
+                      getTextDirection(cell) === 'rtl' ? 'rtl' : 'ltr',
+                    ]}
+                    set:html={cell}
+                  />
+                );
+              } else {
+                return (
+                  <td class='multi-cell-container'>
+                    <div class='multi-cell'>
+                      {cell.representations.map((rep, idx) => (
+                        <div
+                          class:list={[
+                            'representation',
+                            getTextDirection(rep) === 'rtl' ? 'rtl' : 'ltr',
+                          ]}
+                        >
+                          {cell.labels && (
+                            <span class='script-label'>{cell.labels[idx]}</span>
+                          )}
+                          <span set:html={rep} />
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                );
+              }
+            })}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-container {
+    max-width: calc(100% - 60px);
+    margin: 1rem 30px;
+    overflow-x: auto;
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 0.75rem;
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .description {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #555;
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 1rem;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: start;
+    word-break: break-word; /* Allow long words to break */
+    overflow-wrap: break-word; /* Alternative to word-break for better browser support */
+    max-width: 200px; /* Set a maximum width for each cell */
+  }
+
+  th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:hover {
+    background-color: #f0f0f0;
+  }
+
+  .rtl {
+    direction: rtl;
+  }
+
+  .ltr {
+    direction: ltr;
+  }
+
+  .multi-cell-container {
+    padding: 0.5rem;
+  }
+
+  .multi-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .representation {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 0.5rem;
+  }
+
+  .script-label {
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.85rem;
+    }
+
+    th,
+    td {
+      padding: 0.5rem;
+      max-width: none; /* Remove max-width on small screens */
+    }
+
+    .title {
+      font-size: 1.25rem;
+    }
+
+    .description {
+      font-size: 1rem;
+    }
+  }
+</style>

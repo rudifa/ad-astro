@@ -1,0 +1,40 @@
+---
+interface Props {
+  audioFile: string;
+}
+
+const { audioFile } = Astro.props;
+---
+
+<button class="audio-button" onclick={`new Audio('${audioFile}').play()`}>
+  <span class="play-icon">▶</span>
+</button>
+
+<style>
+  .audio-button {
+    background-color: #9bc0eb;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    left: 0.5rem;
+  }
+
+  .audio-button:hover {
+    background-color: #1e6dbc;
+  }
+
+  .play-icon {
+    font-size: 0.8rem;
+    padding-left: 30;
+    position: relative;
+    left: 1px;
+  }
+</style>

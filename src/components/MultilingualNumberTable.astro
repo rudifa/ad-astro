@@ -1,11 +1,14 @@
 ---
-// MultilingualNumberTable.astro
+import AudioButton from "./AudioButton.astro";
+
 interface Props {
   data: {
     headers: string[];
     rows: string[][];
     title: string;
-    description?: string;
+    description?: string[];
+    instructions?: string[];
+    audioFiles: string[];
     columnMerges?: {
       [baseColumnIndex: number]: {
         mergeWith: number;
@@ -21,8 +24,8 @@ const { data } = Astro.props;
 const processedHeaders = data.headers.filter(
   (_, index) =>
     !Object.values(data.columnMerges || {}).some(
-      (merge) => merge.mergeWith === index
-    )
+      (merge) => merge.mergeWith === index,
+    ),
 );
 
 // Process a row to merge specified columns
@@ -31,12 +34,12 @@ function processRow(row: string[]) {
     .filter(
       (_, index) =>
         !Object.values(data.columnMerges || {}).some(
-          (merge) => merge.mergeWith === index
-        )
+          (merge) => merge.mergeWith === index,
+        ),
     )
     .map((cell, index) => {
       const mergeInfo = Object.entries(data.columnMerges || {}).find(
-        ([baseIdx]) => Number(baseIdx) === index
+        ([baseIdx]) => Number(baseIdx) === index,
       );
       if (mergeInfo) {
         const [, { mergeWith, labels }] = mergeInfo;
@@ -50,15 +53,19 @@ function processRow(row: string[]) {
 }
 
 // Utility to determine text direction based on script
-function getTextDirection(text: string): 'rtl' | 'ltr' {
+function getTextDirection(text: string): "rtl" | "ltr" {
   const rtlRegex = /[\u0590-\u05FF\u0600-\u06FF]/;
-  return rtlRegex.test(text) ? 'rtl' : 'ltr';
+  return rtlRegex.test(text) ? "rtl" : "ltr";
 }
 ---
 
-<div class='table-container'>
-  <h2 class='title'>{data.title}</h2>
-  {data.description && <p class='description'>{data.description}</p>}
+<div class="table-container">
+  <h2 class="title">{data.title}</h2>
+
+  <div class="instructions">
+    {data.description?.map((instruction) => <p>{instruction}</p>)}
+  </div>
+
   <table>
     <thead>
       <tr>
@@ -66,8 +73,17 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
           processedHeaders.map((header) => (
             <th
               set:html={header}
-              class:list={[getTextDirection(header) === 'rtl' ? 'rtl' : 'ltr']}
+              class:list={[getTextDirection(header) === "rtl" ? "rtl" : "ltr"]}
             />
+          ))
+        }
+      </tr>
+      <tr class="audio-row">
+        {
+          data.audioFiles.map((audioFile) => (
+            <th class="audio-cell">
+              <AudioButton audioFile={audioFile} />
+            </th>
           ))
         }
       </tr>
@@ -77,28 +93,28 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
         data.rows.map((row) => (
           <tr>
             {processRow(row).map((cell) => {
-              if (typeof cell === 'string') {
+              if (typeof cell === "string") {
                 return (
                   <td
                     class:list={[
-                      getTextDirection(cell) === 'rtl' ? 'rtl' : 'ltr',
+                      getTextDirection(cell) === "rtl" ? "rtl" : "ltr",
                     ]}
                     set:html={cell}
                   />
                 );
               } else {
                 return (
-                  <td class='multi-cell-container'>
-                    <div class='multi-cell'>
+                  <td class="multi-cell-container">
+                    <div class="multi-cell">
                       {cell.representations.map((rep, idx) => (
                         <div
                           class:list={[
-                            'representation',
-                            getTextDirection(rep) === 'rtl' ? 'rtl' : 'ltr',
+                            "representation",
+                            getTextDirection(rep) === "rtl" ? "rtl" : "ltr",
                           ]}
                         >
                           {cell.labels && (
-                            <span class='script-label'>{cell.labels[idx]}</span>
+                            <span class="script-label">{cell.labels[idx]}</span>
                           )}
                           <span set:html={rep} />
                         </div>
@@ -113,9 +129,30 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
       }
     </tbody>
   </table>
+
+  <div class="instructions">
+    {data.instructions?.map((instruction) => <p>{instruction}</p>)}
+  </div>
 </div>
 
 <style>
+  .instructions {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .instructions p {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    max-width: 600px; /* Optional: limits the line length for better readability */
+    margin-left: auto; /* Centers the paragraph if max-width is set */
+    margin-right: auto; /* Centers the paragraph if max-width is set */
+  }
+
   .table-container {
     max-width: calc(100% - 60px);
     margin: 1rem 30px;
@@ -197,6 +234,44 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
     font-size: 0.8em;
     color: #666;
   }
+
+  .audio-row th {
+    border: none;
+    background-color: transparent;
+    padding: 0.25rem;
+  }
+
+  .audio-cell {
+    text-align: left;
+  }
+
+  /* .audio-button {
+    background-color: #9bc0eb;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    /* margin: 0 auto; Center the button in the cell */
+    position: relative;
+    left: 0.5rem;
+  }
+
+  .audio-button:hover {
+    background-color: #1e6dbc;
+  }
+
+  .play-icon {
+    font-size: 0.8rem;
+    padding-left: 30;
+    position: relative;
+    left: 1px;
+  } */
 
   @media (max-width: 768px) {
     table {

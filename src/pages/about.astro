@@ -1,0 +1,53 @@
+---
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+---
+
+<ShoelaceLayout title='About'>
+  <header>
+    <h1>Projet ad-astro</h1>
+  </header>
+  <main>
+    <p>Bienvenue au project ad-astro!</p>
+    <p>Nous y rassemblerons des jeux d'apprentissage et de recherche.</p>
+    <p>
+      Tu peux poster tes questions, commentaires, suggestions ou critiques de
+      ces jeux sur le <a href='https://github.com/rudifa/ad-astro/issues'
+        >Github</a
+      >. Ton papa ou ta maman peuvent t'aider à le faire.
+    </p>
+    <p>
+      D'où vient le nom <strong>ad-astro</strong>? Il vient de la phrase en
+      latin <strong>Per aspera ad astra</strong>, qui signifie <strong
+        >À travers les difficultés jusqu'aux étoiles</strong
+      >. Elle veut te dire que pour atteindre les des buts intéressants dans
+      notre vie, ceux qui brillent comme des étoiles dans le ciel, il nous faut
+      parfois traverser des chemins difficiles et semés d'obstacles. Courage!
+    </p>
+    <p>
+      Et <strong>astro</strong> est le nom d'une collection des programmes informatiques
+      qui sont à la base de ce projet.
+    </p>
+  </main>
+
+  <style>
+    header,
+    main {
+      margin: auto;
+      width: 1024px;
+      padding: 1rem;
+      max-width: calc(100% - 2rem);
+    }
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: left;
+      margin: var(--sl-spacing-4x-large) 0 var(--sl-spacing-3x-large);
+    }
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+  </style>
+</ShoelaceLayout>

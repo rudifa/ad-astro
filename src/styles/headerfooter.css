@@ -1,13 +1,14 @@
 header,
 main {
-  margin: auto;
-  width: 1024px;
+
   padding: 1rem;
   max-width: calc(100% - 2rem);
 }
 
 header,
 footer {
+  margin: auto;
+  width: 1024px;
   font-size: 1.2rem;
   background-color: #e60073;
   color: #fff;

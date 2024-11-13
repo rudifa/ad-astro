@@ -1,9 +1,10 @@
 ---
+import ThemeSelector from "../components/ThemeSelector.astro";
 import '../styles/headerfooter.css';
 ---
 
 <header class='bg-gray-900 text-white py-4 px-6'>
-  <div class='flex justify-between items-center'>
+  <div class='flex justify-between items-center relative'>
     <a href='/' class='text-xl font-bold'>Projet ad-astro</a>
     <nav>
       <ul class='flex space-x-4'>
@@ -12,5 +13,6 @@ import '../styles/headerfooter.css';
         <li><a href="/contact" class='hover:underline'>Contact</a></li>  -->
       </ul>
     </nav>
+    <ThemeSelector />
   </div>
 </header>

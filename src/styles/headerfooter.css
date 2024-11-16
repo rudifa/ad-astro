@@ -1,9 +1,10 @@
 header,
-main {
-  margin: auto;
-  width: 1024px;
+main,
+footer {
   padding: 1rem;
-  max-width: calc(100% - 2rem);
+  max-width: 1024px;
+  width: calc(100% - 2rem);
+  margin: auto;
 }
 
 header,

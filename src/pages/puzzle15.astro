@@ -1,0 +1,32 @@
+---
+// puzzle15.astro
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+// import Puzzle15 from '../components/puzzle15/puzzle-15.js';
+---
+
+<ShoelaceLayout title='puzzle15'>
+  <main class='container mx-auto p-4'>
+    <h2 class='title text-2xl font-bold mb-4'>Deuxième jeu: Puzzle 15</h2>
+    <div class='puzzle-container'>
+      <puzzle-15></puzzle-15>
+    </div>
+  </main>
+</ShoelaceLayout>
+
+<script>
+  // Import the web component on the client side
+  import '../components/puzzle15/puzzle-15.js';
+</script>
+
+<style>
+  .title {
+    text-align: center;
+  }
+
+  .puzzle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+  }
+</style>

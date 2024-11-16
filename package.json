@@ -9,7 +9,7 @@
   "scripts": {
     "format": "prettier \"src/**/*.{astro,js,html,css}\" --write",
     "lint": "eslint src --ext .js,.astro",
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -21,6 +21,7 @@
     "@astrojs/netlify": "^5.5.4",
     "@shoelace-style/shoelace": "^2.12.0",
     "astro": "^4.1.1",
+    "canvas-confetti": "^1.9.3",
     "lit": "^3.1.1"
   },
   "devDependencies": {

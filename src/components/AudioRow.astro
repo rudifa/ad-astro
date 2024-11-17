@@ -1,0 +1,92 @@
+---
+interface Props {
+  audioFiles: string[];
+}
+
+const { audioFiles } = Astro.props;
+---
+
+<tr class='audio-row'>
+  {
+    audioFiles.map((audioFile) => (
+      <th class='audio-cell'>
+        <button class='audio-button' data-audio-file={audioFile}>
+          <span class='play-icon'>🗣️</span>
+        </button>
+      </th>
+    ))
+  }
+</tr>
+
+<script>
+  let currentFile = '';
+  let audio = null;
+
+  document.querySelectorAll('.audio-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const audioFile = button.dataset.audioFile;
+
+      if (audioFile) {
+        if (currentFile === '') {
+          audio = new Audio(audioFile);
+          audio.play();
+          currentFile = audioFile;
+          console.log('Playing:', audioFile, currentFile);
+        } else if (audioFile === currentFile) {
+          audio.pause();
+          audio.currentTime = 0;
+          currentFile = '';
+          console.log('Stopping:', audioFile, currentFile);
+        } else {
+          if (audio) audio.pause();
+          audio = new Audio(audioFile);
+          audio.play();
+          currentFile = audioFile;
+          console.log('Switching to:', audioFile, currentFile);
+        }
+        console.log('Current file:', currentFile);
+      } else {
+        console.error('No audio file data found for this button');
+      }
+    });
+  });
+</script>
+
+<style>
+  .audio-row th {
+    border: none;
+    background-color: transparent;
+    padding: 0.25rem;
+  }
+
+  .audio-cell {
+    text-align: left;
+  }
+
+  .audio-button {
+    background-color: #edf0d3;
+    color: white;
+    border: 1px solid #1e6dbc;
+    border-radius: 50%;
+    width: 1.8rem;
+    height: 1.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    position: relative;
+    left: 0.5rem;
+  }
+
+  .audio-button:hover {
+    background-color: #1e6dbc;
+  }
+
+  .play-icon {
+    font-size: 1.5rem;
+    padding-left: 30;
+    position: relative;
+    left: 1px;
+  }
+</style>

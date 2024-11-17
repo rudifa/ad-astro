@@ -12,6 +12,7 @@ export class Puzzle15Model {
     let size = Math.floor(Math.sqrt(numberOfSquares || 16));
     this.size = size;
     this.grid = []; // one dimensional array size*size of squares
+    this.steps = 0;
     this.init();
   }
 
@@ -35,9 +36,11 @@ export class Puzzle15Model {
     for (const item of this.neighbors(i)) {
       if (this._isEmpty(item)) {
         this._swap(i, item);
-        return;
+        this.steps++;
+        return true;
       }
     }
+    return false;
   }
 
   // move a randomly selected neighbour into the empty position
@@ -115,6 +118,7 @@ export class Puzzle15Model {
     for (let i = 0; i < n; i++) {
       this.randomMove();
     }
+    this.steps = 0;
   }
 
   // return a string representation of the puzzle

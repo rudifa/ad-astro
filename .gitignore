@@ -23,3 +23,7 @@ pnpm-debug.log*
 # Environment variables
 .env
 .env.production
+
+# Auxiliary file folders
+.tmp/
+.docs/

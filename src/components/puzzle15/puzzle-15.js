@@ -65,6 +65,12 @@ export class Puzzle15 extends LitElement {
   constructor() {
     super();
     this.model = new Puzzle15Model(16);
+
+    this.audio = new Audio("/tom3.wav");
+    this.audio.addEventListener("ended", () => {
+      console.log("Audio playback has ended");
+      // Perform any actions you want when the audio ends
+    });
   }
 
   newGrid(gridJson) {
@@ -73,7 +79,7 @@ export class Puzzle15 extends LitElement {
   }
 
   showPuzzle = () => {
-    let size = this.model.size;
+    const { size } = this.model;
     let rows = [];
     for (let i = 0; i < size; i++) {
       rows.push(this.showRow(i));
@@ -82,7 +88,7 @@ export class Puzzle15 extends LitElement {
   };
 
   showRow(rowIdx) {
-    let size = this.model.size;
+    const { size } = this.model;
     let row = this.model.grid.slice(rowIdx * size, (rowIdx + 1) * size);
 
     return html`<div>
@@ -125,18 +131,44 @@ export class Puzzle15 extends LitElement {
   }
 
   solvedButton() {
-    let totalDistance = this.model.totalDistance();
+    let distance = this.model.totalDistance();
+    let steps = this.model.steps;
     return html`<button class="button">
-      ${this.model.isSolved() ? "Résolu!" : totalDistance}
+      <!-- ${this.model.isSolved()
+        ? `Résolu en ${steps}!`
+        : `${distance} : ${steps}`} -->
+      ${this.solvedButtonText()}
     </button>`;
   }
 
+  solvedButtonText() {
+    // if distance == 0 then
+    //    if steps == 0 then "Résolu!"
+    //    else "Résolu (steps)!"
+    // else
+    //    "distance : steps"
+    let distance = this.model.totalDistance();
+    let steps = this.model.steps;
+
+    if (this.model.isSolved()) {
+      if (steps == 0) {
+        return "Résolu!";
+      } else {
+        return `Résolu en ${steps}!`;
+      }
+    } else {
+      return `${distance} : ${steps}`;
+    }
+  }
   _onClickSquare(e) {
     console.log(`_onClick2`, e.target.id);
-    this.model.move(parseInt(e.target.id));
-    this.requestUpdate();
-    if (this.model.isSolved()) {
-      this.play();
+    let moved = this.model.move(parseInt(e.target.id));
+    if (moved) {
+      this.audio.play();
+      this.requestUpdate();
+      if (this.model.isSolved()) {
+        this.confetti();
+      }
     }
   }
 
@@ -156,15 +188,17 @@ export class Puzzle15 extends LitElement {
   //   }
   // };
 
-  play() {
-    const audio = new Audio("/tom3.wav");
-    audio.play();
-    // Add confetti effect
+  confetti() {
     confetti({
       particleCount: 100,
       spread: 70,
-      origin: { y: 0.8 },
+      origin: { y: 0.7 },
     });
+  }
+
+  stopAudio() {
+    this.audio.pause();
+    this.audio.currentTime = 0;
   }
 }
 customElements.define("puzzle-15", Puzzle15);

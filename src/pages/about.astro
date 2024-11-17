@@ -1,5 +1,14 @@
 ---
 import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+import Instructions from '../components/Instructions.astro';
+
+const aboutContent = [
+  'Bienvenue au project ad-astro!',
+  "Nous y rassemblerons des jeux d'apprentissage et de recherche.",
+  "Tu peux poster tes questions, commentaires, suggestions ou critiques de ces jeux sur le <a href='https://github.com/rudifa/ad-astro/issues'>Github</a>. Ton papa ou ta maman peuvent t'aider à le faire.",
+  "D'où vient le nom <strong>ad-astro</strong>? Il vient de la phrase en latin <strong>Per aspera ad astra</strong>, qui signifie <strong>À travers les difficultés jusqu'aux étoiles</strong>. Elle veut te dire que pour atteindre les des buts intéressants dans notre vie, ceux qui brillent pour nous comme des étoiles dans le ciel, il nous faut souvent beaucoup d'efforts et du travail. Mais, avec du courage on peut y arriver!",
+  "Et <strong>astro</strong> est le nom d'une collection des programmes informatiques qui sont à la base de ce projet.",
+];
 ---
 
 <ShoelaceLayout title='A propos...'>
@@ -7,7 +16,9 @@ import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
     <h1>Projet ad-astro</h1>
   </header>
   <main>
-    <p>Bienvenue au project ad-astro!</p>
+    <Instructions instructions={aboutContent} />
+
+    <!-- <p>Bienvenue au project ad-astro!</p>
     <p>Nous y rassemblerons des jeux d'apprentissage et de recherche.</p>
     <p>
       Tu peux poster tes questions, commentaires, suggestions ou critiques de
@@ -27,7 +38,7 @@ import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
     <p>
       Et <strong>astro</strong> est le nom d'une collection des programmes informatiques
       qui sont à la base de ce projet.
-    </p>
+    </p> -->
   </main>
 
   <style>

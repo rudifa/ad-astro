@@ -1,5 +1,6 @@
 ---
-import AudioButton from './AudioButton.astro';
+import AudioRow from './AudioRow.astro';
+import Instructions from './Instructions.astro';
 
 interface Props {
   data: {
@@ -61,9 +62,7 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 
 <h2 class='title'>{data.title}</h2>
 
-<div class='instructions'>
-  {data.description?.map((instruction) => <p>{instruction}</p>)}
-</div>
+<Instructions instructions={data.description || []} />
 
 <div class='table-container'>
   <table>
@@ -78,15 +77,7 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
           ))
         }
       </tr>
-      <tr class='audio-row'>
-        {
-          data.audioFiles.map((audioFile) => (
-            <th class='audio-cell'>
-              <AudioButton audioFile={audioFile} />
-            </th>
-          ))
-        }
-      </tr>
+      <AudioRow audioFiles={data.audioFiles} />
     </thead>
     <tbody>
       {
@@ -131,35 +122,9 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
   </table>
 </div>
 
-<div class='instructions'>
-  {data.instructions?.map((instruction) => <p>{instruction}</p>)}
-</div>
+<Instructions instructions={data.instructions || []} />
 
 <style>
-  .instructions {
-    margin-top: 2rem;
-    font-size: 1.3rem;
-    padding: 1rem;
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    text-align: center;
-    /* width: calc(100% - 2rem); */
-    max-width: 1024px;
-    width: calc(100% - 2rem);
-    margin: auto;
-
-    /* width: 100%; Add this line to make the width responsive */
-    box-sizing: border-box; /* Add this line to include padding in the width calculation */
-  }
-
-  .instructions p {
-    margin-bottom: 0.5rem;
-    line-height: 1.5;
-    max-width: 600px; /* Optional: limits the line length for better readability */
-    margin-left: auto; /* Centers the paragraph if max-width is set */
-    margin-right: auto; /* Centers the paragraph if max-width is set */
-  }
-
   .title {
     text-align: center;
     margin-bottom: 0.75rem;
@@ -243,43 +208,6 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
     color: #666;
   }
 
-  .audio-row th {
-    border: none;
-    background-color: transparent;
-    padding: 0.25rem;
-  }
-
-  .audio-cell {
-    text-align: left;
-  }
-
-  .audio-button {
-    background-color: #9bc0eb;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-    /* margin: 0 auto; Center the button in the cell */
-    position: relative;
-    left: 0.5rem;
-  }
-
-  .audio-button:hover {
-    background-color: #1e6dbc;
-  }
-
-  .play-icon {
-    font-size: 0.8rem;
-    padding-left: 30;
-    position: relative;
-    left: 1px;
-  }
   @media (max-width: 768px) {
     .instructions p {
       max-width: 100%; /* Allow the paragraph to take full width on small screens */

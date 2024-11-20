@@ -53,13 +53,3 @@ a:hover {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
-
-.custom-button {
-  background-color: #6a5acd; /* SlateBlue */
-  color: white;
-  border: none;
-}
-
-.custom-button:hover {
-  background-color: #5a4bbd; /* Slightly darker SlateBlue */
-}

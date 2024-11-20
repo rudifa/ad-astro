@@ -3,9 +3,12 @@
 /* Light theme */
 :root {
   color-scheme: normal;
+  background-color: white;
+  color: black;
 
+  /*
   /* Primary: accent color */
-  --sl-color-primary-50:  var(--sl-color-blue-50);
+  --sl-color-primary-50: var(--sl-color-blue-50);
   --sl-color-primary-100: var(--sl-color-blue-100);
   --sl-color-primary-200: var(--sl-color-blue-200);
   --sl-color-primary-300: var(--sl-color-blue-300);
@@ -18,7 +21,7 @@
   --sl-color-primary-950: var(--sl-color-blue-950);
 
   /* Success */
-  --sl-color-success-50:  var(--sl-color-emerald-50);
+  --sl-color-success-50: var(--sl-color-emerald-50);
   --sl-color-success-100: var(--sl-color-emerald-100);
   --sl-color-success-200: var(--sl-color-emerald-200);
   --sl-color-success-300: var(--sl-color-emerald-300);
@@ -31,7 +34,83 @@
   --sl-color-success-950: var(--sl-color-emerald-950);
 }
 
+:root body {
+  color: var(--sl-color-neutral-700);
+  font-size: 20px;
+  line-height: 1.6;
+}
+
 /* Dark theme */
 .sl-theme-dark {
   color-scheme: dark;
+  background-color: black;
+  color: white;
+}
+
+.sl-theme-dark body {
+  color: var(
+    --sl-color-neutral-300
+  ); /* Adjust this value for better contrast in dark mode */
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.text-primary {
+  color: var(--sl-color-primary-600);
+}
+.text-secondary {
+  color: var(--sl-color-secondary-600);
+}
+.text-accent {
+  color: var(--sl-color-success-600);
+}
+
+.bg-primary {
+  background-color: var(--sl-color-primary-100);
+}
+.bg-secondary {
+  background-color: var(--sl-color-secondary-100);
+}
+.bg-accent {
+  background-color: var(--sl-color-success-100);
+}
+
+.text-black {
+  color: black;
+}
+.text-white {
+  color: white;
+}
+.bg-black {
+  background-color: black;
+}
+
+.sl-theme-dark .text-primary {
+  color: var(--sl-color-primary-100);
+}
+.sl-theme-dark .text-secondary {
+  color: var(--sl-color-secondary-400);
+}
+.sl-theme-dark .text-accent {
+  color: var(--sl-color-success-400);
+}
+
+.sl-theme-dark .bg-primary {
+  background-color: var(--sl-color-primary-900);
+}
+.sl-theme-dark .bg-secondary {
+  background-color: var(--sl-color-secondary-900);
+}
+.sl-theme-dark .bg-accent {
+  background-color: var(--sl-color-success-900);
+}
+
+.custom-button {
+  background-color: #5ac2cd; /* SlateBlue */
+  color: white;
+  border: none;
+}
+
+.custom-button:hover {
+  background-color: #5a4bbd; /* Slightly darker SlateBlue */
 }

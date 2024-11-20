@@ -1,6 +1,8 @@
 ---
 import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
 import CardGrid from '../components/CardGrid.astro';
+
+const showThemeDemo = false; // Set to true to show the Theme Demo card
 ---
 
 <ShoelaceLayout title='ad-astro'>
@@ -17,7 +19,7 @@ import CardGrid from '../components/CardGrid.astro';
           variant='primary'
           outline
           href='./MesJeux'
-          class='custom-button'>Joue!</sl-button
+          class=''>Joue!</sl-button
         >
       </sl-card>
     </CardGrid>
@@ -30,10 +32,29 @@ import CardGrid from '../components/CardGrid.astro';
           variant='primary'
           outline
           href='./puzzle15'
-          class='custom-button'>Joue!</sl-button
+          class=''>Joue!</sl-button
         >
       </sl-card>
     </CardGrid>
+    {
+      showThemeDemo && (
+        <CardGrid>
+          <sl-card>
+            <h2>Theme Demo</h2>
+            Light / Dark / System
+            <sl-button
+              slot='footer'
+              variant='primary'
+              outline
+              href='./theme-demo'
+              class='custom-button'
+            >
+              Joue!
+            </sl-button>
+          </sl-card>
+        </CardGrid>
+      )
+    }
   </main>
 </ShoelaceLayout>
 

@@ -2,21 +2,28 @@
 
 ---
 
-<div class="theme-selector-wrapper">
+<div class='theme-selector-wrapper'>
   <sl-dropdown
-    id="theme-selector"
-    placement="bottom"
-    distance="3"
-    containingElement=".theme-selector-wrapper">
-    <sl-button slot="trigger" size="small" variant="text" caret title="Press \ to toggle">
-      <sl-icon class="only-light" name="sun-fill"></sl-icon>
-      <sl-icon class="only-dark" name="moon-fill"></sl-icon>
+    id='theme-selector'
+    placement='bottom'
+    distance='3'
+    containingElement='.theme-selector-wrapper'
+  >
+    <sl-button
+      slot='trigger'
+      size='small'
+      variant='text'
+      caret
+      title='Press \ to toggle'
+    >
+      <sl-icon class='only-light' name='sun-fill'></sl-icon>
+      <sl-icon class='only-dark' name='moon-fill'></sl-icon>
     </sl-button>
     <sl-menu>
-      <sl-menu-item type="checkbox" value="light">Light</sl-menu-item>
-      <sl-menu-item type="checkbox" value="dark">Dark</sl-menu-item>
+      <sl-menu-item type='checkbox' value='light'>Light</sl-menu-item>
+      <sl-menu-item type='checkbox' value='dark'>Dark</sl-menu-item>
       <sl-divider></sl-divider>
-      <sl-menu-item type="checkbox" value="auto">System</sl-menu-item>
+      <sl-menu-item type='checkbox' value='auto'>System</sl-menu-item>
     </sl-menu>
   </sl-dropdown>
 </div>
@@ -25,7 +32,7 @@
   .theme-selector-wrapper {
     display: inline-flex;
     align-items: center;
-    position: relative;  /* Still needed for dropdown containment */
+    position: relative; /* Still needed for dropdown containment */
   }
 
   #theme-selector sl-menu {
@@ -33,11 +40,11 @@
   }
 
   #theme-selector {
-    position: static !important;  /* Add this back */
+    position: static !important;
   }
 
   #theme-selector sl-button::part(base) {
-    position: static;  /* Add this back */
+    position: static;
     color: var(--sl-color-neutral-1000);
   }
 
@@ -57,68 +64,68 @@
 
 <script>
   function getTheme() {
-    return localStorage.getItem("theme") || "auto";
+    return localStorage.getItem('theme') || 'auto';
   }
 
   function isDark() {
-    if (theme === "auto") {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (theme === 'auto') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-    return theme === "dark";
+    return theme === 'dark';
   }
 
   function setTheme(newTheme) {
     theme = newTheme;
-    localStorage.setItem("theme", theme);
+    localStorage.setItem('theme', theme);
 
     // Update the UI
     updateSelection();
 
     // Toggle the dark mode class
-    document.documentElement.classList.toggle("sl-theme-dark", isDark());
+    document.documentElement.classList.toggle('sl-theme-dark', isDark());
   }
 
   function updateSelection() {
-    const menu = document.querySelector("#theme-selector sl-menu");
+    const menu = document.querySelector('#theme-selector sl-menu');
     if (!menu) return;
-    [...menu.querySelectorAll("sl-menu-item")].map(
-      (item) => (item.checked = item.getAttribute("value") === theme),
+    [...menu.querySelectorAll('sl-menu-item')].map(
+      (item) => (item.checked = item.getAttribute('value') === theme)
     );
   }
 
   let theme = getTheme();
 
   // Selection is not preserved when changing page, so update when opening dropdown
-  document.addEventListener("sl-show", (event) => {
-    const themeSelector = event.target.closest("#theme-selector");
+  document.addEventListener('sl-show', (event) => {
+    const themeSelector = event.target.closest('#theme-selector');
     if (!themeSelector) return;
     updateSelection();
   });
 
   // Listen for selections
-  document.addEventListener("sl-select", (event) => {
-    const menu = event.target.closest("#theme-selector sl-menu");
+  document.addEventListener('sl-select', (event) => {
+    const menu = event.target.closest('#theme-selector sl-menu');
     if (!menu) return;
     setTheme(event.detail.item.value);
   });
 
   // Update the theme when the preference changes
   window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", () => setTheme(theme));
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => setTheme(theme));
 
   // Toggle with backslash
-  document.addEventListener("keydown", (event) => {
+  document.addEventListener('keydown', (event) => {
     if (
-      event.key === "\\" &&
+      event.key === '\\' &&
       !event
         .composedPath()
         .some((el) =>
-          ["input", "textarea"].includes(el?.tagName?.toLowerCase()),
+          ['input', 'textarea'].includes(el?.tagName?.toLowerCase())
         )
     ) {
       event.preventDefault();
-      setTheme(isDark() ? "light" : "dark");
+      setTheme(isDark() ? 'light' : 'dark');
     }
   });
 

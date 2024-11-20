@@ -1,0 +1,56 @@
+---
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+---
+
+<ShoelaceLayout title='Theme Demo'>
+  <main>
+    <h1>Theme Demo</h1>
+
+    <section class='theme-demo'>
+      <h2>Text and Background Colors</h2>
+      <p class='text-primary bg-primary'>
+        This is primary text on the primary background.
+      </p>
+      <p class='text-secondary bg-secondary'>
+        This is secondary text on the secondary background.
+      </p>
+      <p class='text-accent bg-accent'>
+        This is accent text on the accent background.
+      </p>
+
+      <h2>Text Colors</h2>
+      <p class='text-primary'>This is primary text.</p>
+      <p class='text-secondary'>This is secondary text.</p>
+      <p class='text-accent'>This is accent text.</p>
+
+      <h2>Background Colors</h2>
+      <div class='bg-primary'>Primary background</div>
+      <div class='bg-secondary'>Secondary background</div>
+      <div class='bg-accent'>Accent background</div>
+
+      <h2>Black and White</h2>
+      <p class='text-black'>This text is always black.</p>
+      <p class='text-white bg-black'>
+        This text is always white on a black background.
+      </p>
+    </section>
+  </main>
+</ShoelaceLayout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+  }
+  .theme-demo > * {
+    margin-bottom: 1rem;
+  }
+  .bg-primary,
+  .bg-secondary,
+  .bg-accent,
+  .bg-black {
+    padding: 1rem;
+  }
+</style>

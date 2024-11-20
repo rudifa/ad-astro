@@ -65,7 +65,7 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 <Instructions instructions={data.description || []} />
 
 <div class='table-container'>
-  <table>
+  <table class='text-secondary bg-secondary'>
     <thead>
       <tr>
         {
@@ -123,20 +123,17 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 </div>
 
 <Instructions instructions={data.instructions || []} />
-
 <style>
   .title {
     text-align: center;
     margin-bottom: 0.75rem;
     font-size: 1.8rem;
-    color: #333;
     font-weight: 600;
   }
 
   .description {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #555;
     font-size: 1.3rem;
     line-height: 1.4;
   }
@@ -157,25 +154,25 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 
   th,
   td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--sl-color-neutral-300);
     padding: 0.75rem;
     text-align: start;
-    word-break: break-word; /* Allow long words to break */
-    overflow-wrap: break-word; /* Alternative to word-break for better browser support */
-    max-width: 200px; /* Set a maximum width for each cell */
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 200px;
   }
 
   th {
-    background-color: #f5f5f5;
+    background-color: var(--sl-color-neutral-100);
     font-weight: 600;
   }
 
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
+  tr:nth-child(odd) {
+    background-color: var(--sl-color-neutral-50);
   }
 
   tr:hover {
-    background-color: #f0f0f0;
+    background-color: var(--sl-color-neutral-200);
   }
 
   .rtl {
@@ -205,16 +202,16 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 
   .script-label {
     font-size: 0.8em;
-    color: #666;
+    color: var(--sl-color-neutral-500);
   }
 
   @media (max-width: 768px) {
     .instructions p {
-      max-width: 100%; /* Allow the paragraph to take full width on small screens */
+      max-width: 100%;
     }
 
     .instructions p {
-      max-width: 100%; /* Allow full width on small screens */
+      max-width: 100%;
     }
 
     table {
@@ -224,7 +221,7 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
     th,
     td {
       padding: 0.5rem;
-      max-width: none; /* Remove max-width on small screens */
+      max-width: none;
     }
 
     .title {

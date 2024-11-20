@@ -6,7 +6,7 @@ interface Props {
 const { instructions } = Astro.props;
 ---
 
-<div class='instructions'>
+<div class='instructions text-primary bg-primary'>
   {instructions.map((instruction) => <p set:html={instruction} />)}
 </div>
 
@@ -14,9 +14,8 @@ const { instructions } = Astro.props;
   .instructions {
     margin-top: 2rem;
     font-size: 1.3rem;
-    padding: 1rem;
-    background-color: #f8f8f8;
-    border-radius: 8px;
+    padding: var(--sl-spacing-large);
+    border-radius: var(--sl-border-radius-medium);
     text-align: center;
     max-width: 1024px;
     width: calc(100% - 2rem);
@@ -30,6 +29,19 @@ const { instructions } = Astro.props;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: var(--sl-spacing-medium);
+  }
+
+  .instructions a {
+    text-decoration: none;
+  }
+
+  .instructions a:hover {
+    text-decoration: underline;
+  }
+
+  .instructions strong {
+    color: var(--sl-color-primary-700);
   }
 
   @media (max-width: 768px) {

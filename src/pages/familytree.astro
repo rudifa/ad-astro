@@ -1,0 +1,119 @@
+---
+import ShoelaceLayout from '../layouts/ShoelaceLayout.astro';
+import CardGrid from '../components/CardGrid.astro';
+import FamilyTree1 from '../components/FamilyTree1.astro';
+import FamilyTree2 from '../components/FamilyTree2.astro';
+---
+
+<ShoelaceLayout title='ad-astro'>
+  <header>
+    <h1>ad-astro</h1>
+  </header>
+  <hr />
+  <sl-radio-group
+    label='Select Family Tree Version'
+    name='tree-version'
+    id='treeSelector'
+  >
+    <sl-radio-button value='1' checked>Family Tree 1</sl-radio-button>
+    <sl-radio-button value='2'>Family Tree 2</sl-radio-button>
+  </sl-radio-group>
+  <div id='treeContainer'>
+    <div id='tree1' style='display: none;'>
+      <CardGrid>
+        <sl-card>
+          <h2>Family Tree 1 Visualization: hardcoded final d3 data</h2><br />
+          <FamilyTree1 />
+        </sl-card>
+      </CardGrid>
+    </div>
+    <div id='tree2' style='display: none;'>
+      <CardGrid>
+        <sl-card>
+          <h2>Family Tree 2 Visualization: hardcoded</h2><br />
+          <FamilyTree2 />
+        </sl-card>
+      </CardGrid>
+    </div>
+  </div>
+
+  <div id='textContainer'>
+    <p id='text1' style='display: none'>Text 1</p>
+    <p id='text2' style='display: none'>Text 2</p>
+  </div>
+</ShoelaceLayout>
+
+<script>
+  function toggleTrees(value) {
+    const tree1 = document.getElementById('tree1');
+    const tree2 = document.getElementById('tree2');
+    if (tree1 && tree2) {
+      if (value === '1') {
+        console.log('tree1');
+        tree1.style.display = 'block';
+        tree2.style.display = 'none';
+      } else if (value === '2') {
+        console.log('tree2');
+        tree1.style.display = 'none';
+        tree2.style.display = 'block';
+      }
+    }
+  }
+
+  function toggleTexts(value) {
+    const text1 = document.getElementById('text1');
+    const text2 = document.getElementById('text2');
+    if (text1 && text2) {
+      if (value === '1') {
+        console.log('text1');
+        text1.style.display = 'block';
+        text2.style.display = 'none';
+      } else if (value === '2') {
+        console.log('text2');
+        text1.style.display = 'none';
+        text2.style.display = 'block';
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const radioGroup = document.getElementById('treeSelector');
+    console.log('radioGroup:', radioGroup);
+    if (radioGroup) {
+      console.log('addEventListener');
+      radioGroup.addEventListener('sl-change', (event) => {
+        console.log('sl-change event:', event, event.target.value);
+        const target = event.target as HTMLInputElement;
+        toggleTrees(target.value);
+        toggleTexts(target.value);
+      });
+
+      console.log('set up radioGroup:', radioGroup);
+      // Set initial state
+      const initialValue =
+        (
+          radioGroup.querySelector(
+            'sl-radio-button[checked]'
+          ) as HTMLInputElement
+        )?.value || '1';
+      toggleTrees(initialValue);
+    }
+  });
+</script>
+
+<style>
+  header,
+  main {
+    margin: auto;
+    width: 1024px;
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+  h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    margin: var(--sl-spacing-4x-large) 0 var(--sl-spacing-3x-large);
+  }
+</style>

@@ -2,56 +2,22 @@
 import AudioRow from './AudioRow.astro';
 import Instructions from './Instructions.astro';
 
+interface LanguageEntry {
+  entry: [string | string[], string];
+}
+
 interface Props {
   data: {
-    headers: string[];
-    rows: string[][];
+    headers: LanguageEntry['entry'][];
+    rows: (string | string[])[];
     title: string;
     description?: string[];
     instructions?: string[];
     audioFiles: string[];
-    columnMerges?: {
-      [baseColumnIndex: number]: {
-        mergeWith: number;
-        labels?: [string, string];
-      };
-    };
   };
 }
 
 const { data } = Astro.props;
-
-// Process headers and determine actual column count
-const processedHeaders = data.headers.filter(
-  (_, index) =>
-    !Object.values(data.columnMerges || {}).some(
-      (merge) => merge.mergeWith === index
-    )
-);
-
-// Process a row to merge specified columns
-function processRow(row: string[]) {
-  return row
-    .filter(
-      (_, index) =>
-        !Object.values(data.columnMerges || {}).some(
-          (merge) => merge.mergeWith === index
-        )
-    )
-    .map((cell, index) => {
-      const mergeInfo = Object.entries(data.columnMerges || {}).find(
-        ([baseIdx]) => Number(baseIdx) === index
-      );
-      if (mergeInfo) {
-        const [, { mergeWith, labels }] = mergeInfo;
-        return {
-          representations: [cell, row[mergeWith]],
-          labels,
-        };
-      }
-      return cell;
-    });
-}
 
 // Utility to determine text direction based on script
 function getTextDirection(text: string): 'rtl' | 'ltr' {
@@ -69,11 +35,31 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
     <thead>
       <tr>
         {
-          processedHeaders.map((header) => (
-            <th
-              set:html={header.replace('\n', '<br>')}
-              class:list={[getTextDirection(header) === 'rtl' ? 'rtl' : 'ltr']}
-            />
+          data.headers.map(([content, label]) => (
+            <th>
+              <div class='header-content'>
+                {Array.isArray(content) ? (
+                  content.map((item) => (
+                    <span
+                      class:list={[
+                        'header-item',
+                        getTextDirection(item) === 'rtl' ? 'rtl' : 'ltr',
+                      ]}
+                      set:html={item.replace('\n', '<br>')}
+                    />
+                  ))
+                ) : (
+                  <span
+                    class:list={[
+                      'header-item',
+                      getTextDirection(content) === 'rtl' ? 'rtl' : 'ltr',
+                    ]}
+                    set:html={content.replace('\n', '<br>')}
+                  />
+                )}
+              </div>
+              {label && <div class='header-label'>{label}</div>}
+            </th>
           ))
         }
       </tr>
@@ -83,7 +69,7 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
       {
         data.rows.map((row) => (
           <tr>
-            {processRow(row).map((cell) => {
+            {row.map((cell) => {
               if (typeof cell === 'string') {
                 return (
                   <td
@@ -97,16 +83,13 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
                 return (
                   <td class='multi-cell-container'>
                     <div class='multi-cell'>
-                      {cell.representations.map((rep, idx) => (
+                      {cell.map((rep) => (
                         <div
                           class:list={[
                             'representation',
                             getTextDirection(rep) === 'rtl' ? 'rtl' : 'ltr',
                           ]}
                         >
-                          {cell.labels && (
-                            <span class='script-label'>{cell.labels[idx]}</span>
-                          )}
                           <span set:html={rep} />
                         </div>
                       ))}
@@ -123,6 +106,7 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 </div>
 
 <Instructions instructions={data.instructions || []} />
+
 <style>
   .title {
     text-align: center;

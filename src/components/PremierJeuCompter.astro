@@ -24,18 +24,18 @@ const tableData = {
     '.',
   ],
   headers: [
-    'français\n🇨🇭 🇫🇷 🇨🇦',
-    'deutsch\n🇨🇭🇩🇪 🇦🇹',
-    'italiano\n🇨🇭🇮🇹',
-    'english\n🇬🇧 🇺🇸 🇨🇦 🇦🇺',
-    'español\n🇪🇸 🇲🇽',
-    'hrvatski\n🇭🇷',
-    'magyar\n🇭🇺',
-    'jidisch\n🇮🇱',
-    'jidisch\n🇮🇱',
-    'български\n🇧🇬',
-    'українськи\n🇺🇦',
-    'по русски\n🇷🇺',
+    ['français', '🇨🇭 🇫🇷 🇨🇦'],
+    ['deutsch', '🇨🇭🇩🇪 🇦🇹'],
+    ['italiano', '🇨🇭🇮🇹'],
+    ['english', '🇬🇧 🇺🇸 🇨🇦 🇦🇺'],
+    ['español', '🇪🇸 🇲🇽'],
+    ['hrvatski', '🇭🇷'],
+    ['magyar', '🇭🇺'],
+    ['jidisch', '🇮🇱'],
+    ['български', '🇧🇬'],
+    ['українськи', '🇺🇦'],
+    ['по русски', '🇷🇺'],
+    ['にほんご', '🇯🇵'],
   ],
   audioFiles: [
     '/audio/french.mp3',
@@ -49,6 +49,7 @@ const tableData = {
     '/audio/bulgarian.mp3',
     '/audio/ukrainian.mp3',
     '/audio/russian.mp3',
+    '/audio/japanese.mp3',
   ],
   rows: [
     [
@@ -59,11 +60,11 @@ const tableData = {
       'uno',
       'jedan',
       'egy',
-      'eyn',
-      'איין',
+      ['eyn', 'איין'],
       'едно',
       'один',
       'один',
+      ['ichi', 'いち'],
     ],
     [
       'deux',
@@ -73,11 +74,11 @@ const tableData = {
       'dos',
       'dva',
       'kettő',
-      'tsvey',
-      'צוויי',
+      ['tsvey', 'צוויי'],
       'две',
       'два',
       'два',
+      ['ni', 'に'],
     ],
     [
       'trois',
@@ -87,11 +88,11 @@ const tableData = {
       'tres',
       'tri',
       'három',
-      'dray',
-      'דריי',
+      ['dray', 'דריי'],
       'три',
       'три',
       'три',
+      ['san', 'さん'],
     ],
     [
       'quatre',
@@ -101,11 +102,11 @@ const tableData = {
       'cuatro',
       'četiri',
       'négy',
-      'fir',
-      'פיר',
+      ['fir', 'פיר'],
       'четири',
       'чотири',
       'четыре',
+      ['yon', 'よん'],
     ],
     [
       'cinq',
@@ -115,11 +116,11 @@ const tableData = {
       'cinco',
       'pet',
       'öt',
-      'finf',
-      'פינף',
+      ['finf', 'פינף'],
       'пет',
       "п'ять",
       'пять',
+      ['go', 'ご'],
     ],
     [
       'six',
@@ -129,11 +130,11 @@ const tableData = {
       'seis',
       'šest',
       'hat',
-      'zeks',
-      'זעקס',
+      ['zeks', 'זעקס'],
       'шест',
       'шість',
       'шесть',
+      ['roku', 'ろく'],
     ],
     [
       'sept',
@@ -143,11 +144,11 @@ const tableData = {
       'siete',
       'sedam',
       'hét',
-      'zibn',
-      'זיבן',
+      ['zibn', 'זיבן'],
       'седем',
       'сім',
       'семь',
+      ['shichi', 'しち'],
     ],
     [
       'huit',
@@ -157,11 +158,11 @@ const tableData = {
       'ocho',
       'osam',
       'nyolc',
-      'akht',
-      'אַכט',
+      ['akht', 'אַכט'],
       'осем',
       'вісім',
       'восемь',
+      ['hachi', 'はち'],
     ],
     [
       'neuf',
@@ -171,11 +172,11 @@ const tableData = {
       'nueve',
       'devet',
       'kilenc',
-      'nayn',
-      'ניין',
+      ['nayn', 'ניין'],
       'девет',
       "дев'ять",
       'девять',
+      ['kyuu', 'きゅう'],
     ],
     [
       'dix',
@@ -185,11 +186,11 @@ const tableData = {
       'diez',
       'deset',
       'tíz',
-      'tsen',
-      'צען',
+      ['tsen', 'צען'],
       'десет',
       'десять',
       'десять',
+      ['juu', 'じゅう'],
     ],
   ],
   // Define which columns should be merged
@@ -202,4 +203,12 @@ const tableData = {
 };
 ---
 
-<MultilingualNumberTable data={tableData} />
+<div class='multilingual'>
+  <MultilingualNumberTable data={tableData} />
+</div>
+
+<style>
+  .multilingual {
+    /* background-color: blueviolet; */
+  }
+</style>

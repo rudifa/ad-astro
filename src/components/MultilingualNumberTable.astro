@@ -2,133 +2,105 @@
 import AudioRow from './AudioRow.astro';
 import Instructions from './Instructions.astro';
 
+interface LanguageEntry {
+  entry: [string | string[], string];
+}
+
 interface Props {
   data: {
-    headers: string[];
-    rows: string[][];
+    headers: LanguageEntry['entry'][];
+    rows: (string | string[])[];
     title: string;
     description?: string[];
     instructions?: string[];
     audioFiles: string[];
-    columnMerges?: {
-      [baseColumnIndex: number]: {
-        mergeWith: number;
-        labels?: [string, string];
-      };
-    };
   };
 }
 
 const { data } = Astro.props;
-
-// Process headers and determine actual column count
-const processedHeaders = data.headers.filter(
-  (_, index) =>
-    !Object.values(data.columnMerges || {}).some(
-      (merge) => merge.mergeWith === index
-    )
-);
-
-// Process a row to merge specified columns
-function processRow(row: string[]) {
-  return row
-    .filter(
-      (_, index) =>
-        !Object.values(data.columnMerges || {}).some(
-          (merge) => merge.mergeWith === index
-        )
-    )
-    .map((cell, index) => {
-      const mergeInfo = Object.entries(data.columnMerges || {}).find(
-        ([baseIdx]) => Number(baseIdx) === index
-      );
-      if (mergeInfo) {
-        const [, { mergeWith, labels }] = mergeInfo;
-        return {
-          representations: [cell, row[mergeWith]],
-          labels,
-        };
-      }
-      return cell;
-    });
-}
-
-// Utility to determine text direction based on script
-function getTextDirection(text: string): 'rtl' | 'ltr' {
-  const rtlRegex = /[\u0590-\u05FF\u0600-\u06FF]/;
-  return rtlRegex.test(text) ? 'rtl' : 'ltr';
-}
 ---
 
-<h2 class='title'>{data.title}</h2>
+<div class='page-container'>
+  <h2 class='title'>{data.title}</h2>
 
-<Instructions instructions={data.description || []} />
-
-<div class='table-container'>
-  <table class='text-secondary bg-secondary'>
-    <thead>
-      <tr>
+  <Instructions instructions={data.description || []} />
+  <div class='table-container'>
+    <table class='text-secondary bg-secondary'>
+      <thead>
+        <tr>
+          {
+            data.headers.map(([content, label]) => (
+              <th>
+                <div class='header-content'>
+                  {Array.isArray(content) ? (
+                    content.map((item) => (
+                      <span
+                        class:list={['header-item']}
+                        set:html={item.replace('\n', '<br>')}
+                      />
+                    ))
+                  ) : (
+                    <span
+                      class:list={['header-item']}
+                      set:html={content.replace('\n', '<br>')}
+                    />
+                  )}
+                </div>
+                {label && <div class='header-label'>{label}</div>}
+              </th>
+            ))
+          }
+        </tr>
+        <AudioRow audioFiles={data.audioFiles} />
+      </thead>
+      <tbody>
         {
-          processedHeaders.map((header) => (
-            <th
-              set:html={header.replace('\n', '<br>')}
-              class:list={[getTextDirection(header) === 'rtl' ? 'rtl' : 'ltr']}
-            />
+          data.rows.map((row) => (
+            <tr>
+              {row.map((cell) => {
+                if (typeof cell === 'string') {
+                  return <td class:list={[]} set:html={cell} />;
+                } else {
+                  return (
+                    <td class='multi-cell-container'>
+                      <div class='multi-cell'>
+                        {cell.map((rep, index) => (
+                          <div
+                            class:list={[
+                              'representation',
+                              index > 0 ? 'subsequent-representation' : '',
+                            ]}
+                          >
+                            <span set:html={rep} />
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                  );
+                }
+              })}
+            </tr>
           ))
         }
-      </tr>
-      <AudioRow audioFiles={data.audioFiles} />
-    </thead>
-    <tbody>
-      {
-        data.rows.map((row) => (
-          <tr>
-            {processRow(row).map((cell) => {
-              if (typeof cell === 'string') {
-                return (
-                  <td
-                    class:list={[
-                      getTextDirection(cell) === 'rtl' ? 'rtl' : 'ltr',
-                    ]}
-                    set:html={cell}
-                  />
-                );
-              } else {
-                return (
-                  <td class='multi-cell-container'>
-                    <div class='multi-cell'>
-                      {cell.representations.map((rep, idx) => (
-                        <div
-                          class:list={[
-                            'representation',
-                            getTextDirection(rep) === 'rtl' ? 'rtl' : 'ltr',
-                          ]}
-                        >
-                          {cell.labels && (
-                            <span class='script-label'>{cell.labels[idx]}</span>
-                          )}
-                          <span set:html={rep} />
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                );
-              }
-            })}
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
+
+  <Instructions instructions={data.instructions || []} />
 </div>
 
-<Instructions instructions={data.instructions || []} />
 <style>
+  .page-container {
+    border-width: 1px;
+    border-color: red;
+  }
+
   .title {
     text-align: center;
     margin-bottom: 0.75rem;
     font-size: 1.8rem;
     font-weight: 600;
+    /* background-color: aliceblue; */
   }
 
   .description {
@@ -147,9 +119,17 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
 
   table {
     border-collapse: collapse;
-    width: 1024px;
-    font-size: 1.05rem;
+    width: calc(1024px - 2rem);
     table-layout: fixed;
+    overflow-x: auto;
+  }
+
+  th {
+    font-size: 0.9rem;
+  }
+
+  td {
+    font-size: 1.1rem;
   }
 
   th,
@@ -175,14 +155,6 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
     background-color: var(--sl-color-neutral-200);
   }
 
-  .rtl {
-    direction: rtl;
-  }
-
-  .ltr {
-    direction: ltr;
-  }
-
   .multi-cell-container {
     padding: 0.5rem;
   }
@@ -196,8 +168,15 @@ function getTextDirection(text: string): 'rtl' | 'ltr' {
   .representation {
     display: flex;
     align-items: center;
-    justify-content: start;
-    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .representation:first-child {
+    justify-content: flex-start;
+  }
+
+  .subsequent-representation {
+    justify-content: flex-end;
   }
 
   .script-label {

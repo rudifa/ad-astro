@@ -1,12 +1,12 @@
 ---
-import BaseLayout from "./BaseLayout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
-import "@shoelace-style/shoelace/dist/themes/light.css";
-import "@shoelace-style/shoelace/dist/themes/dark.css";
-import "../styles/Globals.css";
-import "../styles/Base.css";
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/themes/dark.css';
+import '../styles/Globals.css';
+import '../styles/Base.css';
 
 interface Props {
   title: string;
@@ -16,17 +16,23 @@ const { title } = Astro.props;
 
 <BaseLayout title={title}>
   <Header />
-  <slot />
+  <main>
+    <slot />
+  </main>
   <Footer />
 </BaseLayout>
 
 <script>
-  import "@shoelace-style/shoelace/dist/shoelace.js";
-  import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js";
-  setBasePath("/shoelace");
+  import '@shoelace-style/shoelace/dist/shoelace.js';
+  import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+  setBasePath('/shoelace');
 </script>
 
 <style>
+  main {
+    padding: 1rem;
+  }
+
   :global(sl-dropdown) {
     position: absolute;
     right: var(--sl-spacing-large);
